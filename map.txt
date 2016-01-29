@@ -1,0 +1,18 @@
+This is where you should put all of your sweet ideas/plans.
+Example
+Files: 
+	app.js
+	setup.js
+	constellation.js
+	telescope.js
+
+app.js
+	Dependencies: 
+		setup.js
+		constellation.js
+		telescope.js
+
+	Description: 
+		This module is the entry point of our application and will kick things into action.
+
+	Methods: 
