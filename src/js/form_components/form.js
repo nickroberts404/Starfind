@@ -9,9 +9,10 @@ var Find = require('./find.js')
 var Form = React.createClass({
 	getInitialState: function(){
 		return {
+			searchValue: null,
 			constellationValue: null,
 			magnitudeValue: null,
-			searchValue: null
+			parameterValue: 'lt'
 		}
 	},
 	updateSearch: function(e){
@@ -25,20 +26,34 @@ var Form = React.createClass({
 	updateMagnitude: function(val){		
 		this.setState({magnitudeValue: val});
 	},
+	updateParameter: function(val){		
+		// Not processing data in Magnitude Select component, will do it here
+		val = this.state.parameterValue == 'lt' ? 'gt' : 'lt';
+		this.setState({parameterValue: val});
+	},
 	submitForm: function(a){
 		a.preventDefault();
 		var options = {};
 		if(this.state.searchValue) options.search = this.state.searchValue;
 		if(this.state.constellationValue) options.con = this.state.constellationValue;
 		if(this.state.magnitudeValue !== null) options.mag = this.state.magnitudeValue;
+		if(this.state.parameterValue) options.magParam = this.state.parameterValue;
 		this.props.onSubmit(options)
 	},
 	render: function(){
 		return(
 			<form onSubmit={this.submitForm}>
-				<SearchBar value={this.state.searchValue} onChange={this.updateSearch}/>
-				<ConstellationSelect value={this.state.constellationValue} onChange={this.updateConstellation} />
-				<MagnitudeSelect value={this.state.magnitudeValue} onChange={this.updateMagnitude} />
+				<SearchBar 
+					value={this.state.searchValue} 
+					onChange={this.updateSearch}/>
+				<ConstellationSelect 
+					value={this.state.constellationValue} 
+					onChange={this.updateConstellation} />
+				<MagnitudeSelect 
+					value={this.state.magnitudeValue} 
+					onChange={this.updateMagnitude} 
+					onParameterChange={this.updateParameter}
+					param={this.state.parameterValue} />
 				<Find />
 			</form>
 		)

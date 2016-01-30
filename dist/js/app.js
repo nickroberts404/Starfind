@@ -80306,9 +80306,10 @@ var Form = React.createClass({
 
 	getInitialState: function getInitialState() {
 		return {
+			searchValue: null,
 			constellationValue: null,
 			magnitudeValue: null,
-			searchValue: null
+			parameterValue: 'lt'
 		};
 	},
 	updateSearch: function updateSearch(e) {
@@ -80322,21 +80323,35 @@ var Form = React.createClass({
 	updateMagnitude: function updateMagnitude(val) {
 		this.setState({ magnitudeValue: val });
 	},
+	updateParameter: function updateParameter(val) {
+		// Not processing data in Magnitude Select component, will do it here
+		val = this.state.parameterValue == 'lt' ? 'gt' : 'lt';
+		this.setState({ parameterValue: val });
+	},
 	submitForm: function submitForm(a) {
 		a.preventDefault();
 		var options = {};
 		if (this.state.searchValue) options.search = this.state.searchValue;
 		if (this.state.constellationValue) options.con = this.state.constellationValue;
 		if (this.state.magnitudeValue !== null) options.mag = this.state.magnitudeValue;
+		if (this.state.parameterValue) options.magParam = this.state.parameterValue;
 		this.props.onSubmit(options);
 	},
 	render: function render() {
 		return React.createElement(
 			'form',
 			{ onSubmit: this.submitForm },
-			React.createElement(SearchBar, { value: this.state.searchValue, onChange: this.updateSearch }),
-			React.createElement(ConstellationSelect, { value: this.state.constellationValue, onChange: this.updateConstellation }),
-			React.createElement(MagnitudeSelect, { value: this.state.magnitudeValue, onChange: this.updateMagnitude }),
+			React.createElement(SearchBar, {
+				value: this.state.searchValue,
+				onChange: this.updateSearch }),
+			React.createElement(ConstellationSelect, {
+				value: this.state.constellationValue,
+				onChange: this.updateConstellation }),
+			React.createElement(MagnitudeSelect, {
+				value: this.state.magnitudeValue,
+				onChange: this.updateMagnitude,
+				onParameterChange: this.updateParameter,
+				param: this.state.parameterValue }),
 			React.createElement(Find, null)
 		);
 	}
@@ -80367,7 +80382,16 @@ var MagnitudeSelect = React.createClass({
 	render: function render() {
 		return React.createElement(
 			"div",
-			{ className: "form-group" },
+			{ className: "form-group input-group" },
+			React.createElement(
+				"span",
+				{ className: "input-group-btn" },
+				React.createElement("input", {
+					className: "btn btn-default",
+					type: "button",
+					value: this.props.param == 'gt' ? 'Greater Than' : 'Less Than',
+					onClick: this.props.onParameterChange })
+			),
 			React.createElement("input", {
 				type: "number",
 				name: "magnitude-select",
