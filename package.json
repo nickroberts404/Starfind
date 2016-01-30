@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "Git",
+    "URL": "git+https://github.com/nickroberts404/Starfind.git"
+  },
   "author": "Nick Roberts",
   "license": "ISC",
   "devDependencies": {

@@ -10,10 +10,14 @@ var TableRow = React.createClass({
 			<td key={key}>{this.props.data[property]}</td>
 		)
 	},
+	handleClick: function(e){
+		this.props.onRowClick(e, this.props.data.id);
+	},
 	render: function(){
 		var columns = this.props.properties.map(this.getColumn);
+		var className = this.props.selected ? 'selected' : '';
 		return(
-			<tr>{columns}</tr>
+			<tr className={className} onClick={this.handleClick}>{columns}</tr>
 		)
 	}
 })

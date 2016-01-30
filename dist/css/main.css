@@ -1,2 +1,5 @@
 h1 {
   color: #4ECAC9; }
+
+tr.selected {
+  border-left: 3px solid #4ECAC9; }

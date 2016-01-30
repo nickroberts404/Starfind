@@ -78494,7 +78494,8 @@ var App = React.createClass({
 	getInitialState: function getInitialState() {
 		return {
 			starCount: 0,
-			stars: []
+			stars: [],
+			selectedStars: {}
 		};
 	},
 	componentWillMount: function componentWillMount() {
@@ -78509,6 +78510,12 @@ var App = React.createClass({
 			}
 		});
 	},
+	onRowClick: function onRowClick(event, id) {
+		var selectedStars = this.state.selectedStars;
+		if (this.state.selectedStars[id]) delete selectedStars[id];else selectedStars[id] = true;
+		console.log(selectedStars);
+		this.setState({ selectedStars: selectedStars });
+	},
 	render: function render() {
 		return React.createElement(
 			'div',
@@ -78519,7 +78526,10 @@ var App = React.createClass({
 				' Welcome to ',
 				this.props.title
 			),
-			React.createElement(Table, { data: this.state.stars })
+			React.createElement(Table, {
+				data: this.state.stars,
+				onRowClick: this.onRowClick,
+				selectedStars: this.state.selectedStars })
 		);
 	}
 });
@@ -78549,7 +78559,11 @@ var Table = React.createClass({
 			'table',
 			{ className: 'table table-hover' },
 			React.createElement(TableHead, { headers: ['ID', 'Constellation', 'Magnitude'] }),
-			React.createElement(TableBody, { data: this.props.data, properties: ['id', 'con', 'mag'] })
+			React.createElement(TableBody, {
+				data: this.props.data,
+				properties: ['id', 'con', 'mag'],
+				onRowClick: this.props.onRowClick,
+				selectedStars: this.props.selectedStars })
 		);
 	}
 });
@@ -78569,10 +78583,14 @@ var TableBody = React.createClass({
 	displayName: 'TableBody',
 
 	getRows: function getRows(data) {
-		return React.createElement(TableRow, { key: 'r' + data.id, data: data, properties: this.props.properties });
+		return React.createElement(TableRow, {
+			key: 'r' + data.id,
+			data: data,
+			properties: this.props.properties,
+			onRowClick: this.props.onRowClick,
+			selected: this.props.selectedStars[data.id] });
 	},
 	render: function render() {
-		console.log(this.props.data);
 		var tableRows = this.props.data.map(this.getRows);
 		return React.createElement(
 			'tbody',
@@ -78638,11 +78656,15 @@ var TableRow = React.createClass({
 			this.props.data[property]
 		);
 	},
+	handleClick: function handleClick(e) {
+		this.props.onRowClick(e, this.props.data.id);
+	},
 	render: function render() {
 		var columns = this.props.properties.map(this.getColumn);
+		var className = this.props.selected ? 'selected' : '';
 		return React.createElement(
 			'tr',
-			null,
+			{ className: className, onClick: this.handleClick },
 			columns
 		);
 	}

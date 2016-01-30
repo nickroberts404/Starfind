@@ -5,3 +5,6 @@
 h1{
 	color: $text-primary;
 }
+tr.selected{
+	border-left: 3px solid $text-primary;
+}

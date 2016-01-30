@@ -9,7 +9,8 @@ var App = React.createClass({
 	getInitialState: function(){
 		return {
 			starCount: 0,
-			stars: []
+			stars: [],
+			selectedStars: {},
 		}
 	},
 	componentWillMount: function(){
@@ -25,11 +26,21 @@ var App = React.createClass({
 			}
 		})
 	},
+	onRowClick: function(event, id){
+		var selectedStars = this.state.selectedStars;
+		if (this.state.selectedStars[id]) delete selectedStars[id];
+		else selectedStars[id] = true;
+		console.log(selectedStars);
+		this.setState({selectedStars: selectedStars});
+	},
 	render: function(){
 		return(
 			<div className="container">
 				<h1> Welcome to {this.props.title}</h1>
-				<Table data={this.state.stars} />
+				<Table 
+					data={this.state.stars} 
+					onRowClick={this.onRowClick} 
+					selectedStars={this.state.selectedStars} />
 			</div>
 		)
 	}

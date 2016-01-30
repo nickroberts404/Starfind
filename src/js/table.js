@@ -19,7 +19,11 @@ var Table = React.createClass({
 		return(
 			<table className="table table-hover">
 				<TableHead headers={['ID', 'Constellation', 'Magnitude']} />
-				<TableBody data={this.props.data} properties={['id', 'con', 'mag']} />
+				<TableBody 
+					data={this.props.data} 
+					properties={['id', 'con', 'mag']} 
+					onRowClick={this.props.onRowClick} 
+					selectedStars={this.props.selectedStars} />
 			</table>
 		)
 	}
