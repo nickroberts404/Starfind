@@ -28,11 +28,26 @@ table.js
 		database using SkyGlass. It passes a fixed set of values to table_head to get the table's head. It passes star data and a list of properties to table_rows.
 
 table_rows.js
-	Dependencies; 
+	Dependencies:
 		none
 
 	Desciption: 
 		This component is responsible for generating a list of rows containing star data. 
 		On being clicked, the row will add the corresponding star to a list stored in App, used to update constellations.
 
-table_head
+table_head.js
+	Dependencies:
+		none
+
+	Description:
+		This componenet is responsible for creating a table header, using values it's passed by table.js as headers.
+
+form.js
+	Depedencies:
+
+	Description:
+
+update.js 
+	Depedencies:
+
+	Description:
