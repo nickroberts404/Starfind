@@ -37,7 +37,8 @@ var Form = React.createClass({
 		if(this.state.searchValue) options.search = this.state.searchValue;
 		if(this.state.constellationValue) options.con = this.state.constellationValue;
 		if(this.state.magnitudeValue !== null) options.mag = this.state.magnitudeValue;
-		if(this.state.parameterValue) options.magParam = this.state.parameterValue;
+		if(this.state.parameterValue && this.state.magnitudeValue !== null) options.magparam = this.state.parameterValue;
+		console.log(options);
 		this.props.onSubmit(options)
 	},
 	render: function(){

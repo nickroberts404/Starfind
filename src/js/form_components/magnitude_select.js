@@ -10,8 +10,7 @@ var MagnitudeSelect = React.createClass({
 	},
 	updateValue: function(e){
 		var val = e.target.value;
-		var newval = val > 7 ? 7 : val < -3 ? -3 : val;
-		this.props.onChange(newval);
+		if(!isNaN(val)) this.props.onChange(val);
 	},
 	render: function(){
 		return(
@@ -26,6 +25,9 @@ var MagnitudeSelect = React.createClass({
 				    </span>
 					<input
 						type="number"
+						step="0.01"
+						max="7"
+						min="-2"
 						name="magnitude-select"
 						id="magnitude-select"
 						placeholder="Magnitude"

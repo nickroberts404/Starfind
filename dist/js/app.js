@@ -80334,7 +80334,8 @@ var Form = React.createClass({
 		if (this.state.searchValue) options.search = this.state.searchValue;
 		if (this.state.constellationValue) options.con = this.state.constellationValue;
 		if (this.state.magnitudeValue !== null) options.mag = this.state.magnitudeValue;
-		if (this.state.parameterValue) options.magParam = this.state.parameterValue;
+		if (this.state.parameterValue && this.state.magnitudeValue !== null) options.magparam = this.state.parameterValue;
+		console.log(options);
 		this.props.onSubmit(options);
 	},
 	render: function render() {
@@ -80376,8 +80377,7 @@ var MagnitudeSelect = React.createClass({
 	},
 	updateValue: function updateValue(e) {
 		var val = e.target.value;
-		var newval = val > 7 ? 7 : val < -3 ? -3 : val;
-		this.props.onChange(newval);
+		if (!isNaN(val)) this.props.onChange(val);
 	},
 	render: function render() {
 		return React.createElement(
@@ -80397,6 +80397,9 @@ var MagnitudeSelect = React.createClass({
 				),
 				React.createElement("input", {
 					type: "number",
+					step: "0.01",
+					max: "7",
+					min: "-2",
 					name: "magnitude-select",
 					id: "magnitude-select",
 					placeholder: "Magnitude",
