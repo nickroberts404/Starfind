@@ -19031,20 +19031,83 @@ module.exports = require('./lib/React');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Table = require('./table.js');
 
 var App = React.createClass({
 	displayName: 'App',
 
 	render: function render() {
 		return React.createElement(
-			'h1',
-			null,
-			' Welcome to ',
-			this.props.title
+			'div',
+			{ className: 'container' },
+			React.createElement(
+				'h1',
+				null,
+				' Welcome to ',
+				this.props.title
+			),
+			React.createElement(Table, null)
 		);
 	}
 });
 
 ReactDOM.render(React.createElement(App, { title: 'Starfind' }), document.getElementById('app'));
+
+},{"./table.js":160,"react":158,"react-dom":2}],160:[function(require,module,exports){
+'use strict';
+
+// src/js/table.js
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TableHead = require('./table_head.js');
+
+var Table = React.createClass({
+	displayName: 'Table',
+
+	render: function render() {
+		return React.createElement(
+			'table',
+			{ className: 'table' },
+			React.createElement(TableHead, { headers: ['Name', 'Constellation', 'Magnitude'] })
+		);
+	}
+});
+
+module.exports = Table;
+
+},{"./table_head.js":161,"react":158,"react-dom":2}],161:[function(require,module,exports){
+'use strict';
+
+// src/js/table.js
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var TableHead = React.createClass({
+	displayName: 'TableHead',
+
+	getHeadElement: function getHeadElement(header) {
+		return React.createElement(
+			'th',
+			null,
+			header
+		);
+	},
+	render: function render() {
+		var headers = this.props.headers.map(this.getHeadElement);
+		return React.createElement(
+			'thead',
+			null,
+			React.createElement(
+				'tr',
+				null,
+				headers
+			)
+		);
+	}
+});
+
+module.exports = TableHead;
 
 },{"react":158,"react-dom":2}]},{},[159]);
