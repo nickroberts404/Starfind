@@ -15,22 +15,24 @@ var MagnitudeSelect = React.createClass({
 	},
 	render: function(){
 		return(
-			<div className="form-group input-group">
-				<span className="input-group-btn">
-			    	<input 
-			    		className="btn btn-default" 
-			    		type="button"
-			    		value={this.props.param == 'gt'? 'Greater Than' : 'Less Than'}
-			    		onClick={this.props.onParameterChange} />
-			    </span>
-				<input
-					type="number"
-					name="magnitude-select"
-					id="magnitude-select"
-					placeholder="Magnitude"
-					value={this.props.value}
-					onChange={this.updateValue}
-					className="form-control" />
+			<div className="form-group">
+				<div className="input-group">
+					<span className="input-group-btn">
+				    	<input 
+				    		className="btn btn-default" 
+				    		type="button"
+				    		value={this.props.param == 'gt'? 'Greater Than' : 'Less Than'}
+				    		onClick={this.props.onParameterChange} />
+				    </span>
+					<input
+						type="number"
+						name="magnitude-select"
+						id="magnitude-select"
+						placeholder="Magnitude"
+						value={this.props.value}
+						onChange={this.updateValue}
+						className="form-control" />
+				</div>
 			</div>
 		)
 	}

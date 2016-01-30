@@ -80382,24 +80382,28 @@ var MagnitudeSelect = React.createClass({
 	render: function render() {
 		return React.createElement(
 			"div",
-			{ className: "form-group input-group" },
+			{ className: "form-group" },
 			React.createElement(
-				"span",
-				{ className: "input-group-btn" },
+				"div",
+				{ className: "input-group" },
+				React.createElement(
+					"span",
+					{ className: "input-group-btn" },
+					React.createElement("input", {
+						className: "btn btn-default",
+						type: "button",
+						value: this.props.param == 'gt' ? 'Greater Than' : 'Less Than',
+						onClick: this.props.onParameterChange })
+				),
 				React.createElement("input", {
-					className: "btn btn-default",
-					type: "button",
-					value: this.props.param == 'gt' ? 'Greater Than' : 'Less Than',
-					onClick: this.props.onParameterChange })
-			),
-			React.createElement("input", {
-				type: "number",
-				name: "magnitude-select",
-				id: "magnitude-select",
-				placeholder: "Magnitude",
-				value: this.props.value,
-				onChange: this.updateValue,
-				className: "form-control" })
+					type: "number",
+					name: "magnitude-select",
+					id: "magnitude-select",
+					placeholder: "Magnitude",
+					value: this.props.value,
+					onChange: this.updateValue,
+					className: "form-control" })
+			)
 		);
 	}
 });
