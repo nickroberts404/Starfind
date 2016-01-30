@@ -8,7 +8,7 @@ var TableBody = require('./table_body.js');
 var Table = React.createClass({
 	getDefaultProps() {
 	    return {
-	        stars: [
+	        data: [
 	        	{id: 2345, con: 'Ori', mag: 2.5},
 	        	{id: 34555, con: 'Tau', mag: 2.5},
 	        	{id: 212, con: 'And', mag: 2.5},
@@ -19,7 +19,7 @@ var Table = React.createClass({
 		return(
 			<table className="table table-hover">
 				<TableHead headers={['ID', 'Constellation', 'Magnitude']} />
-				<TableBody data={this.props.stars} properties={['id', 'con', 'mag']} />
+				<TableBody data={this.props.data} properties={['id', 'con', 'mag']} />
 			</table>
 		)
 	}

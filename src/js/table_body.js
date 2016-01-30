@@ -11,6 +11,7 @@ var TableBody = React.createClass({
 		)
 	},
 	render: function(){
+		console.log(this.props.data);
 		var tableRows = this.props.data.map(this.getRows);
 		return(
 			<tbody>
