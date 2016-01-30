@@ -1,10 +1,8 @@
-This is where you should put all of your sweet ideas/plans.
-Example
 Files: 
 	app.js
-	setup.js
-	constellation.js
-	telescope.js
+	table.js
+	table_head.js
+	table_row.js
 
 app.js
 	Dependencies: 
