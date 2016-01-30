@@ -19061,22 +19061,56 @@ ReactDOM.render(React.createElement(App, { title: 'Starfind' }), document.getEle
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TableHead = require('./table_head.js');
+var TableBody = require('./table_body.js');
 
 var Table = React.createClass({
 	displayName: 'Table',
+	getDefaultProps: function getDefaultProps() {
+		return {
+			stars: [{ id: 2345, con: 'Ori', mag: 2.5 }, { id: 34555, con: 'Tau', mag: 2.5 }, { id: 212, con: 'And', mag: 2.5 }]
+		};
+	},
 
 	render: function render() {
 		return React.createElement(
 			'table',
-			{ className: 'table' },
-			React.createElement(TableHead, { headers: ['Name', 'Constellation', 'Magnitude'] })
+			{ className: 'table table-hover' },
+			React.createElement(TableHead, { headers: ['ID', 'Constellation', 'Magnitude'] }),
+			React.createElement(TableBody, { data: this.props.stars, properties: ['id', 'con', 'mag'] })
 		);
 	}
 });
 
 module.exports = Table;
 
-},{"./table_head.js":161,"react":158,"react-dom":2}],161:[function(require,module,exports){
+},{"./table_body.js":161,"./table_head.js":162,"react":158,"react-dom":2}],161:[function(require,module,exports){
+'use strict';
+
+// src/js/table.js
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TableRow = require('./table_row.js');
+
+var TableBody = React.createClass({
+	displayName: 'TableBody',
+
+	getRows: function getRows(data) {
+		return React.createElement(TableRow, { key: 'r' + data.id, data: data, properties: this.props.properties });
+	},
+	render: function render() {
+		var tableRows = this.props.data.map(this.getRows);
+		return React.createElement(
+			'tbody',
+			null,
+			tableRows
+		);
+	}
+});
+
+module.exports = TableBody;
+
+},{"./table_row.js":163,"react":158,"react-dom":2}],162:[function(require,module,exports){
 'use strict';
 
 // src/js/table.js
@@ -19088,9 +19122,10 @@ var TableHead = React.createClass({
 	displayName: 'TableHead',
 
 	getHeadElement: function getHeadElement(header) {
+		var key = header;
 		return React.createElement(
 			'th',
-			null,
+			{ key: key },
 			header
 		);
 	},
@@ -19109,5 +19144,36 @@ var TableHead = React.createClass({
 });
 
 module.exports = TableHead;
+
+},{"react":158,"react-dom":2}],163:[function(require,module,exports){
+'use strict';
+
+// src/js/table_row.js
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var TableRow = React.createClass({
+	displayName: 'TableRow',
+
+	getColumn: function getColumn(property) {
+		var key = this.props.data.id + property;
+		return React.createElement(
+			'td',
+			{ key: key },
+			this.props.data[property]
+		);
+	},
+	render: function render() {
+		var columns = this.props.properties.map(this.getColumn);
+		return React.createElement(
+			'tr',
+			null,
+			columns
+		);
+	}
+});
+
+module.exports = TableRow;
 
 },{"react":158,"react-dom":2}]},{},[159]);

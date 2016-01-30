@@ -5,8 +5,9 @@ var ReactDOM = require('react-dom');
 
 var TableHead = React.createClass({
 	getHeadElement: function(header){
+		var key = header;
 		return (
-			<th>{header}</th>
+			<th key={key}>{header}</th>
 		)
 	},
 	render: function(){

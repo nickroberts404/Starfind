@@ -4,7 +4,8 @@ Files:
 	update.js (the button and modal that allow adding stars to a constellation)
 	table.js (the table that will display star data)
 	table_head.js (the head that labels the data in our table)
-	table_row.js (the rows that contain star data)
+	table_body.js (the rows that contain star data)
+	table_row.js (a row that contains star data)
 
 app.js
 	Dependencies: 
@@ -27,12 +28,19 @@ table.js
 		This component is tasked with displaying our star data. It accepts props from App that will be used to query the Telescope
 		database using SkyGlass. It passes a fixed set of values to table_head to get the table's head. It passes star data and a list of properties to table_rows.
 
-table_rows.js
+table_body.js
 	Dependencies:
 		none
 
 	Desciption: 
 		This component is responsible for generating a list of rows containing star data. 
+
+table_row.js
+	Dependencies:
+		none
+
+	Desciption: 
+		This component is responsible for returning a single table row. 
 		On being clicked, the row will add the corresponding star to a list stored in App, used to update constellations.
 
 table_head.js
