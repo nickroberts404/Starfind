@@ -79752,10 +79752,12 @@ var App = React.createClass({
 		this.loadStars({});
 	},
 	loadStars: function loadStars(options) {
+		console.log(options);
 		var self = this;
 		skyglass.getStars(options, function (err, res, data) {
 			if (err) console.error('Error: ', err);else {
 				data = JSON.parse(data);
+				console.log(data);
 				self.setState({ stars: data.stars, starCount: data.count });
 			}
 		});
@@ -79776,7 +79778,7 @@ var App = React.createClass({
 				' Welcome to ',
 				this.props.title
 			),
-			React.createElement(Form, null),
+			React.createElement(Form, { onSubmit: this.loadStars }),
 			React.createElement(Table, {
 				data: this.state.stars,
 				onRowClick: this.onRowClick,
@@ -80252,12 +80254,16 @@ var ConstellationSelect = React.createClass({
 		this.props.onChange(val);
 	},
 	render: function render() {
-		return React.createElement(Select, {
-			name: 'constellation-select',
-			id: 'constellation-select',
-			value: this.props.value,
-			options: options,
-			onChange: this.updateValue });
+		return React.createElement(
+			'div',
+			{ className: 'form-group' },
+			React.createElement(Select, {
+				name: 'constellation-select',
+				id: 'constellation-select',
+				value: this.props.value,
+				options: options,
+				onChange: this.updateValue })
+		);
 	}
 });
 
@@ -80316,10 +80322,18 @@ var Form = React.createClass({
 	updateMagnitude: function updateMagnitude(val) {
 		this.setState({ magnitudeValue: val });
 	},
+	submitForm: function submitForm(a) {
+		a.preventDefault();
+		var options = {};
+		if (this.state.searchValue) options.search = this.state.searchValue;
+		if (this.state.constellationValue) options.con = this.state.constellationValue;
+		if (this.state.magnitudeValue !== null) options.mag = this.state.magnitudeValue;
+		this.props.onSubmit(options);
+	},
 	render: function render() {
 		return React.createElement(
 			'form',
-			{ onSubmit: submitForm },
+			{ onSubmit: this.submitForm },
 			React.createElement(SearchBar, { value: this.state.searchValue, onChange: this.updateSearch }),
 			React.createElement(ConstellationSelect, { value: this.state.constellationValue, onChange: this.updateConstellation }),
 			React.createElement(MagnitudeSelect, { value: this.state.magnitudeValue, onChange: this.updateMagnitude }),
@@ -80327,10 +80341,6 @@ var Form = React.createClass({
 		);
 	}
 });
-
-function submitForm(a, b, c) {
-	a.preventDefault();
-}
 
 module.exports = Form;
 
@@ -80355,14 +80365,18 @@ var MagnitudeSelect = React.createClass({
 		this.props.onChange(newval);
 	},
 	render: function render() {
-		return React.createElement("input", {
-			type: "number",
-			name: "magnitude-select",
-			id: "magnitude-select",
-			placeholder: "Magnitude",
-			value: this.props.value,
-			onChange: this.updateValue,
-			className: "form-control" });
+		return React.createElement(
+			"div",
+			{ className: "form-group" },
+			React.createElement("input", {
+				type: "number",
+				name: "magnitude-select",
+				id: "magnitude-select",
+				placeholder: "Magnitude",
+				value: this.props.value,
+				onChange: this.updateValue,
+				className: "form-control" })
+		);
 	}
 });
 

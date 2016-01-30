@@ -25,9 +25,17 @@ var Form = React.createClass({
 	updateMagnitude: function(val){		
 		this.setState({magnitudeValue: val});
 	},
+	submitForm: function(a){
+		a.preventDefault();
+		var options = {};
+		if(this.state.searchValue) options.search = this.state.searchValue;
+		if(this.state.constellationValue) options.con = this.state.constellationValue;
+		if(this.state.magnitudeValue !== null) options.mag = this.state.magnitudeValue;
+		this.props.onSubmit(options)
+	},
 	render: function(){
 		return(
-			<form onSubmit={submitForm}>
+			<form onSubmit={this.submitForm}>
 				<SearchBar value={this.state.searchValue} onChange={this.updateSearch}/>
 				<ConstellationSelect value={this.state.constellationValue} onChange={this.updateConstellation} />
 				<MagnitudeSelect value={this.state.magnitudeValue} onChange={this.updateMagnitude} />
@@ -36,9 +44,5 @@ var Form = React.createClass({
 		)
 	}
 })
-
-function submitForm(a, b, c){
-	a.preventDefault();
-}
 
 module.exports = Form;

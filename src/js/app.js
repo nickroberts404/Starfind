@@ -18,11 +18,13 @@ var App = React.createClass({
 		this.loadStars({});
 	},
 	loadStars: function(options){
+		console.log(options);
 		var self = this;
 		skyglass.getStars(options, function(err, res, data){
 			if (err) console.error('Error: ', err);
 			else {
 				data = JSON.parse(data);
+				console.log(data);
 				self.setState({stars: data.stars, starCount: data.count});
 			}
 		})
@@ -38,7 +40,7 @@ var App = React.createClass({
 		return(
 			<div className="container">
 				<h1> Welcome to {this.props.title}</h1>
-				<Form />
+				<Form onSubmit={this.loadStars}/>
 				<Table 
 					data={this.state.stars} 
 					onRowClick={this.onRowClick} 

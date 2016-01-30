@@ -15,14 +15,16 @@ var MagnitudeSelect = React.createClass({
 	},
 	render: function(){
 		return(
-			<input
-				type="number"
-				name="magnitude-select"
-				id="magnitude-select"
-				placeholder="Magnitude"
-				value={this.props.value}
-				onChange={this.updateValue}
-				className="form-control" />
+			<div className="form-group">
+				<input
+					type="number"
+					name="magnitude-select"
+					id="magnitude-select"
+					placeholder="Magnitude"
+					value={this.props.value}
+					onChange={this.updateValue}
+					className="form-control" />
+			</div>
 		)
 	}
 })

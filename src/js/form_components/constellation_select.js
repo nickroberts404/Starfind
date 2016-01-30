@@ -15,12 +15,14 @@ var ConstellationSelect = React.createClass({
 	},
 	render: function(){
 		return(
-			<Select
-				name="constellation-select"
-				id="constellation-select"
-				value={this.props.value}
-				options={options}
-				onChange={this.updateValue} />
+			<div className="form-group">
+				<Select
+					name="constellation-select"
+					id="constellation-select"
+					value={this.props.value}
+					options={options}
+					onChange={this.updateValue} />
+			</div>
 		)
 	}
 })
