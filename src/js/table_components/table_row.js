@@ -1,7 +1,6 @@
 // src/js/table_row.js
 
 var React = require('react');
-var ReactDOM = require('react-dom');
 
 var TableRow = React.createClass({
 	getColumn: function(property){
@@ -17,7 +16,11 @@ var TableRow = React.createClass({
 		var columns = this.props.properties.map(this.getColumn);
 		var className = this.props.selected ? 'selected' : '';
 		return(
-			<tr className={className} onClick={this.handleClick}>{columns}</tr>
+			<tr 
+				className={className} 
+				onClick={this.handleClick}>
+				{columns}
+			</tr>
 		)
 	}
 })

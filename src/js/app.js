@@ -3,7 +3,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var skyglass = require('skyglass');
-var Table = require('./table.js');
+var Form = require('./form_components/form.js');
+var Table = require('./table_components/table.js');
 
 var App = React.createClass({
 	getInitialState: function(){
@@ -37,6 +38,7 @@ var App = React.createClass({
 		return(
 			<div className="container">
 				<h1> Welcome to {this.props.title}</h1>
+				<Form />
 				<Table 
 					data={this.state.stars} 
 					onRowClick={this.onRowClick} 

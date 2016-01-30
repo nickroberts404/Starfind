@@ -1,7 +1,6 @@
 // src/js/table.js
 
 var React = require('react');
-var ReactDOM = require('react-dom');
 var TableRow = require('./table_row.js');
 
 var TableBody = React.createClass({

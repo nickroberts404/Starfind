@@ -1,7 +1,6 @@
 // src/js/table.js
 
 var React = require('react');
-var ReactDOM = require('react-dom');
 
 var TableHead = React.createClass({
 	getHeadElement: function(header){
