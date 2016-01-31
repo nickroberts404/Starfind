@@ -7,7 +7,7 @@ var SearchBar = React.createClass({
 		return(
 			<div className="form-group">
 				<input 
-					type="text"
+					type="search"
 					name="search"
 					id="search"
 					value={this.props.value}

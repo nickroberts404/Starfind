@@ -55885,7 +55885,7 @@ module.exports = global.Promise || require('pinkie');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"pinkie":637}],637:[function(require,module,exports){
-(function (process){
+(function (global){
 'use strict';
 
 var PENDING = 'pending';
@@ -55893,7 +55893,7 @@ var SETTLED = 'settled';
 var FULFILLED = 'fulfilled';
 var REJECTED = 'rejected';
 var NOOP = function () {};
-var isNode = typeof process !== 'undefined' && typeof process.emit === 'function';
+var isNode = global.process !== 'undefined' && typeof global.process.emit === 'function';
 
 var asyncSetTimer = typeof setImmediate === 'undefined' ? setTimeout : setImmediate;
 var asyncQueue = [];
@@ -56044,12 +56044,12 @@ function publishRejection(promise) {
 	promise._state = REJECTED;
 	publish(promise);
 	if (!promise._handled && isNode) {
-		process.emit('unhandledRejection', promise._data, promise);
+		global.process.emit('unhandledRejection', promise._data, promise);
 	}
 }
 
 function notifyRejectionHandled(promise) {
-	process.emit('rejectionHandled', promise);
+	global.process.emit('rejectionHandled', promise);
 }
 
 /**
@@ -56179,8 +56179,8 @@ Promise.reject = function (reason) {
 
 module.exports = Promise;
 
-}).call(this,require('_process'))
-},{"_process":219}],638:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],638:[function(require,module,exports){
 /*
     HTTP Hawk Authentication Scheme
     Copyright (c) 2012-2014, Eran Hammer <eran@hammer.io>
@@ -80781,22 +80781,35 @@ module.exports = {
 		console.log('Getting constellation '+con+'...');
 		request(api+'/constellations?con='+con, cb);
 	},
+	addToConstellation: function(stars, cb){
+		console.log('Adding stars to their constellations...');
+		var body = { stars: stars, add_stars: true };
+		var url = api+'/constellations'
+		makePutRequest(url, body, cb);
+	},
+	removeFromConstellation: function(stars, cb){
+		console.log('Adding stars to their constellations...');
+		var body = { stars: stars, add_stars: false };
+		var url = api+'/constellations'
+		makePutRequest(url, body, cb);
+	},
 	addConnection: function(con, connection, cb){
 		console.log('Adding connection to '+con+'...');
 		var body = { connection: connection, addConnection: true }
-		updateConnection(con, body, cb)
+		var url = api+'/constellations?con='+con
+		makePutRequest(url, body, cb)
 	},
 	removeConnection: function(con, connection, cb){
 		console.log('Removing connection to '+con+'...');
 		var body = { connection: connection, addConnection: false }
-		updateConnection(con, body, cb)
+		var url = api+'/constellations?con='+con
+		makePutRequest(url, body, cb)
 	}
 }
 
-function updateConnection(con, body, cb){
-	console.log(body);
+function makePutRequest(url, body, cb){
 	request({
-		url: api+'/constellations?con='+con, 
+		url: url, 
 		method:'PUT', 
 		headers: {
 	        'Content-Type': 'application/json'
@@ -80821,6 +80834,7 @@ var ReactDOM = require('react-dom');
 var skyglass = require('skyglass');
 var Form = require('./form_components/form.js');
 var Table = require('./table_components/table.js');
+var Update = require('./update_components/update.js');
 var Paginator = require('./paginator.js');
 
 var App = React.createClass({
@@ -80852,6 +80866,23 @@ var App = React.createClass({
 			}
 		});
 	},
+	unselectAll: function unselectAll() {
+		this.setState({ selectedStars: {} });
+	},
+	addToConstellation: function addToConstellation() {
+		var stars = Object.keys(this.state.selectedStars);
+		this.unselectAll();
+		skyglass.addToConstellation(stars, function () {
+			this.loadStars(this.state.query);
+		});
+	},
+	removeFromConstellation: function removeFromConstellation() {
+		var stars = Object.keys(this.state.selectedStars);
+		this.unselectAll();
+		skyglass.removeFromConstellation(stars, function () {
+			this.loadStars(this.state.query);
+		});
+	},
 	onRowClick: function onRowClick(event, id) {
 		var selectedStars = this.state.selectedStars;
 		if (this.state.selectedStars[id]) delete selectedStars[id];else selectedStars[id] = true;
@@ -80881,14 +80912,28 @@ var App = React.createClass({
 			React.createElement(Table, {
 				data: this.state.stars,
 				onRowClick: this.onRowClick,
-				selectedStars: this.state.selectedStars })
+				selectedStars: this.state.selectedStars }),
+			React.createElement(Update, {
+				showButton: Object.size(this.state.selectedStars) > 0,
+				add: this.addToConstellation,
+				remove: this.removeFromConstellation,
+				unselect: this.unselectAll })
 		);
 	}
 });
 
+Object.size = function (obj) {
+	var size = 0,
+	    key;
+	for (key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;
+};
+
 ReactDOM.render(React.createElement(App, { title: 'Starfind' }), document.getElementById('app'));
 
-},{"./form_components/form.js":711,"./paginator.js":714,"./table_components/table.js":715,"react":578,"react-dom":252,"skyglass":706}],708:[function(require,module,exports){
+},{"./form_components/form.js":711,"./paginator.js":714,"./table_components/table.js":715,"./update_components/update.js":721,"react":578,"react-dom":252,"skyglass":706}],708:[function(require,module,exports){
 module.exports=[
     {
         "abbr": "And",
@@ -81527,7 +81572,7 @@ var SearchBar = React.createClass({
 			"div",
 			{ className: "form-group" },
 			React.createElement("input", {
-				type: "text",
+				type: "search",
 				name: "search",
 				id: "search",
 				value: this.props.value,
@@ -81544,7 +81589,7 @@ module.exports = SearchBar;
 },{"react":578}],714:[function(require,module,exports){
 'use strict';
 
-// src/js/table.js
+// src/js/paginator.js
 
 var React = require('react');
 var ReactPaginate = require('react-paginate');
@@ -81554,27 +81599,32 @@ var Paginator = React.createClass({
 
 	render: function render() {
 		console.log(this.props.currentPage);
-		return React.createElement(ReactPaginate, {
-			previousLabel: "<",
-			nextLabel: ">",
-			forceSelected: this.props.currentPage - 1,
-			pageNum: this.props.pages,
-			clickCallback: this.props.pageChange,
-			breakLabel: React.createElement(
-				'li',
-				{ className: 'break' },
-				React.createElement(
-					'a',
-					{ href: '' },
-					'...'
-				)
-			),
-			marginPagesDisplayed: 1,
-			pageRangeDisplayed: 3,
-			id: 'react-paginate',
-			containerClassName: "pagination",
-			subContainerClassName: "pages pagination",
-			activeClassName: "active" });
+		return React.createElement(
+			'div',
+			{ className: 'pagination-container' },
+			React.createElement(ReactPaginate, {
+				previousLabel: "Previous",
+				nextLabel: "Next",
+				forceSelected: this.props.currentPage - 1,
+				pageNum: this.props.pages,
+				clickCallback: this.props.pageChange,
+				breakLabel: React.createElement(
+					'li',
+					{ className: 'break' },
+					React.createElement(
+						'a',
+						{ href: '' },
+						'...'
+					)
+				),
+				marginPagesDisplayed: 1,
+				pageRangeDisplayed: 3,
+				containerClassName: "pagination",
+				subContainerClassName: "pages pagination",
+				activeClassName: "active",
+				nextClassName: "next",
+				previousClassName: "previous" })
+		);
 	}
 });
 
@@ -81717,4 +81767,127 @@ var TableRow = React.createClass({
 
 module.exports = TableRow;
 
-},{"react":578}]},{},[707]);
+},{"react":578}],719:[function(require,module,exports){
+"use strict";
+
+// src/js/update.js
+
+var React = require('react');
+
+var Update = React.createClass({
+	displayName: "Update",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ id: "new-con-modal", tabIndex: "-1", role: "dialog", "aria-labelledby": "myModalLabel", className: "modal fade" },
+			React.createElement(
+				"div",
+				{ role: "document", className: "modal-dialog" },
+				React.createElement(
+					"div",
+					{ className: "modal-content" },
+					React.createElement(
+						"div",
+						{ className: "modal-header" },
+						React.createElement(
+							"button",
+							{ "data-dismiss": "modal", "aria-label": "Close", className: "close" },
+							React.createElement(
+								"span",
+								{ "aria-hidden": "true" },
+								"×"
+							)
+						),
+						React.createElement(
+							"h4",
+							{ id: "myModalLabel", className: "modal-title" },
+							"Star JSON"
+						)
+					),
+					React.createElement("div", { className: "modal-body" }),
+					React.createElement(
+						"div",
+						{ className: "modal-footer" },
+						React.createElement(
+							"button",
+							{ "data-dismiss": "modal", onClick: this.props.addToConstellation, className: "btn btn-default" },
+							"Add To Constellation"
+						),
+						React.createElement(
+							"button",
+							{ "data-dismiss": "modal", onClick: this.props.removeFromConstellation, className: "btn btn-default" },
+							"Remove From Constellation"
+						),
+						React.createElement(
+							"button",
+							{ "data-dismiss": "modal", onClick: this.props.unselectAll, className: "btn btn-default" },
+							"Cancel"
+						)
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = Update;
+
+},{"react":578}],720:[function(require,module,exports){
+'use strict';
+
+// src/js/modal_button.js
+
+var React = require('react');
+
+var ModalButton = React.createClass({
+	displayName: 'ModalButton',
+
+	render: function render() {
+		var className = this.props.isVisible ? '' : 'hidden';
+		return React.createElement(
+			'button',
+			{
+				className: "btn btn-success " + className,
+				id: 'update-btn',
+				'data-toggle': 'modal',
+				'data-target': '#new-con-modal' },
+			this.props.text
+		);
+	}
+});
+
+module.exports = ModalButton;
+
+},{"react":578}],721:[function(require,module,exports){
+'use strict';
+
+// src/js/update.js
+
+var React = require('react');
+var Modal = require('./modal.js');
+var ModalButton = require('./modal_button.js');
+
+var Update = React.createClass({
+	displayName: 'Update',
+
+	render: function render() {
+		console.log(this.props.showButton);
+		return React.createElement(
+			'div',
+			{ className: 'update-components' },
+			React.createElement(ModalButton, {
+				text: 'Update Constellation',
+				isVisible: this.props.showButton }),
+			React.createElement(Modal, {
+				addToConstellation: this.props.add,
+				removeFromConstellation: this.props.remove,
+				unselectAll: this.props.unselect
+			})
+		);
+	}
+});
+
+module.exports = Update;
+
+},{"./modal.js":719,"./modal_button.js":720,"react":578}]},{},[707]);
