@@ -39,7 +39,7 @@ var Form = React.createClass({
 		if(this.state.magnitudeValue !== null) options.mag = this.state.magnitudeValue;
 		if(this.state.parameterValue && this.state.magnitudeValue !== null) options.magparam = this.state.parameterValue;
 		console.log(options);
-		this.props.onSubmit(options)
+		this.props.onSubmit(options, true)
 	},
 	render: function(){
 		return(

@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "Git",
-    "URL": "git+https://github.com/nickroberts404/Starfind.git"
+    "type": "git",
+    "url": "git+https://github.com/nickroberts404/Starfind.git"
   },
   "author": "Nick Roberts",
   "license": "ISC",
@@ -29,6 +29,7 @@
   "dependencies": {
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
+    "react-paginate": "^0.5.1",
     "react-select": "^1.0.0-beta8",
     "skyglass": "^1.0.0"
   }
