@@ -5,7 +5,6 @@ var ReactPaginate = require('react-paginate');
 
 var Paginator = React.createClass({
 	render: function(){
-	console.log(this.props.currentPage);
 		return(
 			<div className= "pagination-container">
 				<ReactPaginate 
@@ -26,8 +25,4 @@ var Paginator = React.createClass({
 		)
 	}
 })
-
-                       // pageNum={this.state.pageNum}
-
-                       // clickCallback={this.handlePageClick}
 module.exports = Paginator;

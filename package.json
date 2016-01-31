@@ -32,6 +32,6 @@
     "react-paginate": "^0.5.1",
     "react-select": "^1.0.0-beta8",
     "react-tooltip": "^1.0.4",
-    "skyglass": "^1.0.0"
+    "skyglass": "^1.0.3"
   }
 }

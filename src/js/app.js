@@ -31,7 +31,6 @@ var App = React.createClass({
 			if (err) console.error('Error: ', err);
 			else {
 				data = JSON.parse(data);
-				console.log(data);
 				self.setState({stars: data.stars, count: data.count});
 			}
 		})
@@ -42,23 +41,23 @@ var App = React.createClass({
 	addToConstellation: function() {
 		var stars = Object.keys(this.state.selectedStars);
 		this.unselectAll();
+		var self = this;
 		skyglass.addToConstellation(stars, function(){
-			this.loadStars(this.state.query);
+			self.loadStars(self.state.query);
 		});
 	},
 	removeFromConstellation: function() {
 		var stars = Object.keys(this.state.selectedStars);
 		this.unselectAll();
+		var self = this;
 		skyglass.removeFromConstellation(stars, function(){
-			console.log('stars removed')
-			this.loadStars(this.state.query);
+			self.loadStars(self.state.query);
 		});
 	},
 	onRowClick: function(event, id) {
 		var selectedStars = this.state.selectedStars;
 		if (this.state.selectedStars[id]) delete selectedStars[id];
 		else selectedStars[id] = true;
-		console.log(selectedStars);
 		this.setState({selectedStars: selectedStars});
 	},
 	handlePageChange: function(e) {

@@ -52,6 +52,7 @@ gulp.task('pro-sass', ()=> {
 // This task bundles our scripts using browserify, and then minifies it.
 gulp.task('pro-scripts', ()=> {
 	return browserify('./src/js/app.js')
+		.transform(babel, {presets: ["react", "es2015"]}) 
 		.bundle()
 		.pipe(source('app.js'))
 		.pipe(buffer())

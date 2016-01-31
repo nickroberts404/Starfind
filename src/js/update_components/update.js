@@ -6,7 +6,6 @@ var ModalButton = require('./modal_button.js');
 
 var Update = React.createClass({
 	render: function(){
-		console.log(this.props.showButton);
 		return(
 			<div className="update-components">
 				<ModalButton 
