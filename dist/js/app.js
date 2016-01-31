@@ -80880,6 +80880,7 @@ var App = React.createClass({
 		var stars = Object.keys(this.state.selectedStars);
 		this.unselectAll();
 		skyglass.removeFromConstellation(stars, function () {
+			console.log('stars removed');
 			this.loadStars(this.state.query);
 		});
 	},
@@ -80933,7 +80934,7 @@ Object.size = function (obj) {
 
 ReactDOM.render(React.createElement(App, { title: 'Starfind' }), document.getElementById('app'));
 
-},{"./form_components/form.js":711,"./paginator.js":714,"./table_components/table.js":715,"./update_components/update.js":721,"react":578,"react-dom":252,"skyglass":706}],708:[function(require,module,exports){
+},{"./form_components/form.js":711,"./paginator.js":714,"./table_components/table.js":715,"./update_components/update.js":722,"react":578,"react-dom":252,"skyglass":706}],708:[function(require,module,exports){
 module.exports=[
     {
         "abbr": "And",
@@ -81642,6 +81643,8 @@ var React = require('react');
 var TableHead = require('./table_head.js');
 var TableBody = require('./table_body.js');
 
+var header = [{ value: 'Name' }, { value: 'Con', label: 'Constellation' }, { value: 'Mag', label: 'Magnitude' }, { value: 'RA', label: 'Right Ascension' }, { value: 'Dec', label: 'Declination' }, { value: 'Dist', label: 'Distance' }];
+
 var Table = React.createClass({
 	displayName: 'Table',
 	getDefaultProps: function getDefaultProps() {
@@ -81654,10 +81657,9 @@ var Table = React.createClass({
 		return React.createElement(
 			'table',
 			{ className: 'table table-hover' },
-			React.createElement(TableHead, { headers: ['ID', 'Constellation', 'Magnitude'] }),
+			React.createElement(TableHead, { headers: ['Name', 'Con', 'Mag', 'RA', 'Dec', 'Dist'] }),
 			React.createElement(TableBody, {
 				data: this.props.data,
-				properties: ['id', 'con', 'mag'],
 				onRowClick: this.props.onRowClick,
 				selectedStars: this.props.selectedStars })
 		);
@@ -81666,7 +81668,7 @@ var Table = React.createClass({
 
 module.exports = Table;
 
-},{"./table_body.js":716,"./table_head.js":717,"react":578}],716:[function(require,module,exports){
+},{"./table_body.js":716,"./table_head.js":718,"react":578}],716:[function(require,module,exports){
 'use strict';
 
 // src/js/table.js
@@ -81697,7 +81699,29 @@ var TableBody = React.createClass({
 
 module.exports = TableBody;
 
-},{"./table_row.js":718,"react":578}],717:[function(require,module,exports){
+},{"./table_row.js":719,"react":578}],717:[function(require,module,exports){
+'use strict';
+
+// src/js/table.js
+
+var React = require('react');
+
+var Data = React.createClass({
+	displayName: 'Data',
+
+	render: function render() {
+		var className = this.props.highlight ? 'text-primary' : '';
+		return React.createElement(
+			'td',
+			{ className: className },
+			this.props.data
+		);
+	}
+});
+
+module.exports = Data;
+
+},{"react":578}],718:[function(require,module,exports){
 'use strict';
 
 // src/js/table.js
@@ -81731,43 +81755,40 @@ var TableHead = React.createClass({
 
 module.exports = TableHead;
 
-},{"react":578}],718:[function(require,module,exports){
+},{"react":578}],719:[function(require,module,exports){
 'use strict';
 
 // src/js/table_row.js
 
 var React = require('react');
+var Data = require('./table_data.js');
 
 var TableRow = React.createClass({
 	displayName: 'TableRow',
 
-	getColumn: function getColumn(property) {
-		var key = this.props.data.id + property;
-		return React.createElement(
-			'td',
-			{ key: key },
-			this.props.data[property]
-		);
-	},
 	handleClick: function handleClick(e) {
 		this.props.onRowClick(e, this.props.data.id);
 	},
 	render: function render() {
-		var columns = this.props.properties.map(this.getColumn);
 		var className = this.props.selected ? 'selected' : '';
 		return React.createElement(
 			'tr',
 			{
 				className: className,
 				onClick: this.handleClick },
-			columns
+			React.createElement(Data, { data: this.props.data.proper || this.props.data.bf }),
+			React.createElement(Data, { data: this.props.data.con, highlight: this.props.data.incon }),
+			React.createElement(Data, { data: this.props.data.mag }),
+			React.createElement(Data, { data: this.props.data.ra.toFixed(2) }),
+			React.createElement(Data, { data: this.props.data.dec.toFixed(2) }),
+			React.createElement(Data, { data: this.props.data.dist.toFixed(2) })
 		);
 	}
 });
 
 module.exports = TableRow;
 
-},{"react":578}],719:[function(require,module,exports){
+},{"./table_data.js":717,"react":578}],720:[function(require,module,exports){
 "use strict";
 
 // src/js/update.js
@@ -81833,7 +81854,7 @@ var Update = React.createClass({
 
 module.exports = Update;
 
-},{"react":578}],720:[function(require,module,exports){
+},{"react":578}],721:[function(require,module,exports){
 'use strict';
 
 // src/js/modal_button.js
@@ -81859,7 +81880,7 @@ var ModalButton = React.createClass({
 
 module.exports = ModalButton;
 
-},{"react":578}],721:[function(require,module,exports){
+},{"react":578}],722:[function(require,module,exports){
 'use strict';
 
 // src/js/update.js
@@ -81890,4 +81911,4 @@ var Update = React.createClass({
 
 module.exports = Update;
 
-},{"./modal.js":719,"./modal_button.js":720,"react":578}]},{},[707]);
+},{"./modal.js":720,"./modal_button.js":721,"react":578}]},{},[707]);

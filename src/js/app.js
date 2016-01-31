@@ -6,7 +6,7 @@ var skyglass = require('skyglass');
 var Form = require('./form_components/form.js');
 var Table = require('./table_components/table.js');
 var Update = require('./update_components/update.js');
-var Paginator = require('./paginator.js')
+var Paginator = require('./paginator.js');
 
 var App = React.createClass({
 	getInitialState: function(){
@@ -50,6 +50,7 @@ var App = React.createClass({
 		var stars = Object.keys(this.state.selectedStars);
 		this.unselectAll();
 		skyglass.removeFromConstellation(stars, function(){
+			console.log('stars removed')
 			this.loadStars(this.state.query);
 		});
 	},

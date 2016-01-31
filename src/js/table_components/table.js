@@ -4,6 +4,15 @@ var React = require('react');
 var TableHead = require('./table_head.js');
 var TableBody = require('./table_body.js');
 
+var header = [
+	{value: 'Name'},
+	{value: 'Con', label: 'Constellation'},
+	{value: 'Mag', label: 'Magnitude'},
+	{value: 'RA', label: 'Right Ascension'},
+	{value: 'Dec', label: 'Declination'},
+	{value: 'Dist', label: 'Distance'}
+]
+
 var Table = React.createClass({
 	getDefaultProps() {
 	    return {
@@ -17,10 +26,9 @@ var Table = React.createClass({
 	render: function(){
 		return(
 			<table className="table table-hover">
-				<TableHead headers={['ID', 'Constellation', 'Magnitude']} />
+				<TableHead headers={['Name', 'Con', 'Mag', 'RA', 'Dec', 'Dist']} />
 				<TableBody 
 					data={this.props.data} 
-					properties={['id', 'con', 'mag']} 
 					onRowClick={this.props.onRowClick} 
 					selectedStars={this.props.selectedStars} />
 			</table>
