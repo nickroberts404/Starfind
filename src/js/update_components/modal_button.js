@@ -7,10 +7,9 @@ var ModalButton = React.createClass({
 		var className = this.props.isVisible ? '' : 'hidden'
 		return(
 			<button 
-				className={"btn btn-success "+className}
-				id="update-btn"
-				data-toggle='modal' 
-				data-target='#new-con-modal'>
+				className={"update-btn btn "+className+' '+this.props.className+' '+this.props.id}
+				id={this.props.id} 
+				onClick={this.props.onClick} >
 				{this.props.text}
 			</button>
 		)

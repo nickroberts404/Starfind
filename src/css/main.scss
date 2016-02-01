@@ -25,8 +25,13 @@ tr.selected{
 .hidden{
 	display: none;
 }
-#update-btn{
+.update-btn{
 	position: fixed;
-	top: 10px;
 	right: 10px;
+}
+.add-btn{
+	top: 10px;
+}
+.remove-btn{
+	top: 50px;
 }

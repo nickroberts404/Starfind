@@ -21,6 +21,7 @@ var ConstellationSelect = React.createClass({
 					id="constellation-select"
 					value={this.props.value}
 					options={options}
+					placeholder="Constellation"
 					onChange={this.updateValue} />
 			</div>
 		)
