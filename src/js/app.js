@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom');
 var skyglass = require('skyglass');
 var Form = require('./form_components/form.js');
 var Table = require('./table_components/table.js');
-var UpdateButton = require('./update_components/modal_button.js');
+var UpdateButton = require('./update_components/update_button.js');
 var Paginator = require('./paginator.js');
 
 var App = React.createClass({
@@ -82,13 +82,8 @@ var App = React.createClass({
 				<UpdateButton 
 					isVisible={Object.size(this.state.selectedStars) > 0}
 					onClick={this.addToConstellation}
-					className='add-btn btn-success'
-					text='Add' />
-				<UpdateButton 
-					isVisible={Object.size(this.state.selectedStars) > 0}
-					onClick={this.removeFromConstellation}
-					className='remove-btn btn-danger'
-					text='Remove' />
+					add={this.addToConstellation} 
+					remove={this.removeFromConstellation} />
 			</div>
 		)
 	}
